@@ -8,23 +8,23 @@ keypass = "9254c9a4cecf8d83056b9d5fc0561758"
 
 newfile = open('movie_ID_name.csv','w')
 
+csvwrite = csv.writer(newfile, delimiter=',',lineterminator = '\n')
+
 
 for i in range(1,16):
     pagenum = i
-    
-    queryparam = "&sort_by=popularity.desc&include_video=false&page="+str(pagenum)+"&primary_release_date.gte=2000-01-01&with_genres=35"
+    queryparam = "&sort_by=popularity.desc&page="+str(pagenum)+"&primary_release_date.gte=2000-01-01&with_genres=35"
 
     response = requests.get(baseurl + keypass + queryparam)
     jresponse = response.json()
 
     for item in jresponse['results']:
-        print(item['id'])
-    #print(jresponse['results'])
-    #newfile = csv.writer(jresponse['results']['id','title'], delimter=',')
-
-#print(type(jresponse))
-#print(jresponse)
+        csvwrite.writerow([item['id'],item['title']])
     
+newfile.close()
+
+
+
 
 
 

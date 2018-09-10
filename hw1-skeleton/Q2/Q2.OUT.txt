@@ -51,15 +51,10 @@ cast_id,cast_name,collaboration_score
 162652764,"Dakota Fanning",56.6666666666667
 162657036,"Gene Barry",56.6666666666667
 162652765,"Miranda Otto",56.6666666666667
-162652763,"Tom Cruise",56.6666666666667
-178810494,"Anthony Daniels",51.5
-162656296,"Frank Oz",51.5
-162652155,"Ian McDiarmid",51.5
-418638213,"Kenny Baker",51.5
-~~~~~
 ~~~~~
 count_overview
 12
+~~~~~
 id
 76
 194

@@ -1,40 +1,142 @@
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>D3 Demo: 5 divs</title>
+		<title>D3 Demo: Axes</title>
 		<script type="text/javascript" src="d3/d3.v3.min.js"></script>
 		<style type="text/css">
-		
-			div.bar {
-				display: inline-block;
-				width: 20px;
-				height: 75px;
-				background-color: teal;
-                margin-right: 2px;
+			
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
 			}
-		
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 11px;
+			}
+
 		</style>
 	</head>
 	<body>
 		<script type="text/javascript">
+
+			//Width and height
+			var w = 500;
+			var h = 300;
+			var padding = 30;
+			
 		
-            var dataset = [];                        //Initialize empty array
-            for (var i = 0; i < 25; i++) {           //Loop 25 times
-                var newNumber = Math.random() * 30;  //New random number (0-30)
-                dataset.push(newNumber);             //Add new number to array
+			
+			//Dynamic, random dataset
+			var dataset = [];					//Initialize empty array
+			var numDataPoints = 100;				//Number of dummy data points to create
+			var myMax = 250;	//Max range of new x values
+			var myMin = 10;	//Max range of new y values
+			for (var i = 0; i < numDataPoints; i++) {					//Loop numDataPoints times
+				var newNumber1 = Math.round(Math.random() * (myMax-myMin))+myMin;
+                var newNumber2 = Math.round(Math.random() * (myMax-myMin))+myMin;	//New random integer
+				dataset.push([newNumber1, newNumber2]);					//Add new number to array
             }
+            
+            var xAvg = d3.mean(dataset, function(d) {return d[0]; });
+            //window.alert(avgX);
+
+			//Create scale functions
+			var xScale = d3.scale.linear()
+								 .domain([0, d3.max(dataset, function(d) { return d[0]; })])
+								 .range([padding, w - padding * 2]);
+
+			var yScale = d3.scale.linear()
+								 .domain([0, d3.max(dataset, function(d) { return d[1]; })])
+								 .range([h - padding, padding]);
+
+			var boxScale = d3.scale.linear()
+								 .domain([d3.min(dataset, function(d) { return d[0]; }), d3.max(dataset, function(d) { return d[0]; })])
+								 .range([1, 5]);
+
+			//Define X axis
+			var xAxis = d3.svg.axis()
+							  .scale(xScale)
+							  .orient("bottom")
+							  .ticks(5);
+
+			//Define Y axis
+			var yAxis = d3.svg.axis()
+							  .scale(yScale)
+							  .orient("left")
+							  .ticks(5);
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
 			
-			d3.select("body").selectAll("div")
-				.data(dataset)
-				.enter()
-				.append("div")
-                .attr("class", "bar")
-                .style("height", function(d) {
-                    var barHeight = d * 5;  //Scale up by factor of 5
-                    return barHeight + "px";
+               
+            //Create rectangles
+			svg.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+               .attr("x", function(d) {
+                        return xScale(d[0])-boxScale(d[0])/2; //center the 
                 })
+                .attr("y", function(d) {
+                        return yScale(d[1])-boxScale(d[0])/2;
+                })
+                .attr("width", function(d) {
+                        return boxScale(d[0]);
+                })
+                .attr("height", function(d) {
+                        return boxScale(d[0])
+                })
+                .attr("fill","rgba(0,0,0,0.2)")
+                
+                .attr("stroke", function(d) {              
+                        var tempval = "rgba(0,128,0,0.5)";
+                        if (d[0] > xAvg) {
+                            tempval = "rgba(0,0,255,0.5)";
+                        }
+                        return tempval
+                });
+
+			/*
+			//Create labels
+			svg.selectAll("text")
+			   .data(dataset)
+			   .enter()
+			   .append("text")
+			   .text(function(d) {
+			   		return d[0] + "," + d[1];
+			   })
+			   .attr("x", function(d) {
+			   		return xScale(d[0]);
+			   })
+			   .attr("y", function(d) {
+			   		return yScale(d[1]);
+			   })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "red");
+		  	*/
 			
+			//Create X axis
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(0," + (h - padding) + ")")
+				.call(xAxis);
+			
+			//Create Y axis
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(" + padding + ",0)")
+				.call(yAxis);
+
 		</script>
 	</body>
 </html>

@@ -135,14 +135,13 @@
 
 
 			//Write my name on top
-			svg.selectAll("text")
-			   .append("text")
+			svg.append("text")
 			   .text("agarber7")
 			   .attr("x", function(d) {
-			   		return xScale(125);
+			   		return xScale(100);
 			   })
 			   .attr("y", function(d) {
-			   		return yScale(50);
+			   		return yScale(260);
 			   })
 			   .attr("font-family", "sans-serif")
 			   .attr("font-size", "20px")

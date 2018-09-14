@@ -3,9 +3,10 @@ import requests
 import json
 import csv
 import time
+import sys
 
 baseurl = "https://api.themoviedb.org/3/discover/movie?api_key="
-keypass = "9254c9a4cecf8d83056b9d5fc0561758"
+keypass = sys.argv[1]
 
 comedyfile = open('movie_ID_name.csv','w')
 comedywrite = csv.writer(comedyfile, delimiter=',',lineterminator = '\n')

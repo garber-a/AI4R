@@ -1,0 +1,8 @@
+Average node degree - 4.707
+The average number of edges each node has.
+
+Diameter of the graph - 11
+The longest node count between two nodes (if you're trying to get there as short as possible)
+
+Average path length - 4.924
+The average length between all node pairs (if trying to get there as short as possible)

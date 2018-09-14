@@ -1,0 +1,4 @@
+Layout - Yifan Hu followed no overlap = good shape
+Filter - Kcore>=3 reduced "fluff" nodes
+Color - Nodes by modularity class to show clusters
+Labels - Show only critical nodes

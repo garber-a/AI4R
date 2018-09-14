@@ -3,7 +3,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>D3 Demo: Axes</title>
+		<title>agarber7</title>
 		<script type="text/javascript" src="d3/d3.v3.min.js"></script>
 		<style type="text/css">
 			
@@ -43,6 +43,7 @@
             }
             
             var xAvg = d3.mean(dataset, function(d) {return d[0]; });
+            var yMin = d3.min(dataset, function(d) { return d[1]; });
             //window.alert(avgX);
 
 			//Create scale functions
@@ -95,7 +96,7 @@
                 .attr("height", function(d) {
                         return boxScale(d[0])
                 })
-                .attr("fill","rgba(0,0,0,0.2)")
+                .attr("fill","rgba(0,0,0,0.25)")
                 
                 .attr("stroke", function(d) {              
                         var tempval = "rgba(0,128,0,0.5)";
@@ -105,25 +106,48 @@
                         return tempval
                 });
 
-			/*
+			
+			var tempcount = 0;
+
 			//Create labels
 			svg.selectAll("text")
 			   .data(dataset)
 			   .enter()
 			   .append("text")
 			   .text(function(d) {
-			   		return d[0] + "," + d[1];
+						if (d[1] == yMin & tempcount == 0) {
+							tempcount++;
+							return "Min Y: " + d[1];
+                        }
+						else {
+							return ""
+						}
 			   })
 			   .attr("x", function(d) {
-			   		return xScale(d[0]);
+			   		return xScale(d[0])+boxScale(d[0])/2;
 			   })
 			   .attr("y", function(d) {
-			   		return yScale(d[1]);
+			   		return yScale(d[1])-boxScale(d[0])/2;
 			   })
 			   .attr("font-family", "sans-serif")
-			   .attr("font-size", "11px")
+			   .attr("font-size", "4px")
 			   .attr("fill", "red");
-		  	*/
+
+
+			//Write my name on top
+			svg.selectAll("text")
+			   .append("text")
+			   .text("agarber7")
+			   .attr("x", function(d) {
+			   		return xScale(125);
+			   })
+			   .attr("y", function(d) {
+			   		return yScale(50);
+			   })
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "20px")
+			   .attr("fill", "black");
+		  	
 			
 			//Create X axis
 			svg.append("g")
